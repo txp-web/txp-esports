@@ -1,0 +1,590 @@
+{
+  "entities": {
+    "Settings": {
+      "title": "Settings",
+      "description": "Public tournament platform configuration including official UPI payment info and WhatsApp support links.",
+      "type": "object",
+      "properties": {
+        "upiId": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9]+$"
+        },
+        "upiName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 20,
+          "pattern": "^[0-9+\\- ]+$"
+        },
+        "whatsappGroupUrl": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 250
+        },
+        "announcement": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 300
+        },
+        "updatedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "upiId",
+        "upiName",
+        "whatsappNumber",
+        "whatsappGroupUrl",
+        "announcement",
+        "updatedBy",
+        "updatedAt"
+      ]
+    },
+    "Tournament": {
+      "title": "Tournament",
+      "description": "Free Fire Solo or Squad tournament listing.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["Solo", "Squad"]
+        },
+        "mapName": {
+          "type": "string",
+          "enum": ["Bermuda", "Purgatory", "Kalahari", "Bermuda Remastered", "Alpine", "NeXTerra"]
+        },
+        "entryFee": {
+          "type": "number"
+        },
+        "prizePool": {
+          "type": "number"
+        },
+        "perKillPrize": {
+          "type": "number"
+        },
+        "maxSlots": {
+          "type": "integer"
+        },
+        "startTime": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 60
+        },
+        "status": {
+          "type": "string",
+          "enum": ["upcoming", "live", "completed"]
+        },
+        "roomReleased": {
+          "type": "boolean"
+        },
+        "rulesSummary": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 800
+        },
+        "createdBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "mode",
+        "mapName",
+        "entryFee",
+        "prizePool",
+        "perKillPrize",
+        "maxSlots",
+        "startTime",
+        "status",
+        "roomReleased",
+        "rulesSummary",
+        "createdBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RoomAccess": {
+      "title": "RoomAccess",
+      "description": "Protected custom room ID and password revealed only to verified tournament registrants and admins.",
+      "type": "object",
+      "properties": {
+        "tournamentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "roomPassword": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "instructions": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 400
+        },
+        "released": {
+          "type": "boolean"
+        },
+        "updatedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "tournamentId",
+        "roomId",
+        "roomPassword",
+        "instructions",
+        "released",
+        "updatedBy",
+        "updatedAt"
+      ]
+    },
+    "PublicSlot": {
+      "title": "PublicSlot",
+      "description": "Public non-PII slot roster entry synchronized atomically with player registration.",
+      "type": "object",
+      "properties": {
+        "tournamentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["Solo", "Squad"]
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["pending", "verified", "rejected"]
+        },
+        "slotNumber": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "tournamentId",
+        "userId",
+        "displayName",
+        "mode",
+        "paymentStatus",
+        "slotNumber",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "Private player or squad tournament registration containing Free Fire UID, WhatsApp contact, and UPI payment UTR.",
+      "type": "object",
+      "properties": {
+        "tournamentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "tournamentTitle": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["Solo", "Squad"]
+        },
+        "teamName": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 50
+        },
+        "leaderIgn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 40
+        },
+        "leaderUid": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 20,
+          "pattern": "^[0-9]+$"
+        },
+        "squadMembers": {
+          "type": "array"
+        },
+        "whatsappPhone": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 20,
+          "pattern": "^[0-9+\\- ]+$"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["UPI QR", "GPay", "PhonePe", "Paytm", "Free Entry"]
+        },
+        "paymentUtr": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "amountPaid": {
+          "type": "number"
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["pending", "verified", "rejected"]
+        },
+        "adminNote": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "slotNumber": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "tournamentId",
+        "tournamentTitle",
+        "userId",
+        "userEmail",
+        "mode",
+        "teamName",
+        "leaderIgn",
+        "leaderUid",
+        "squadMembers",
+        "whatsappPhone",
+        "paymentMethod",
+        "paymentUtr",
+        "amountPaid",
+        "paymentStatus",
+        "adminNote",
+        "slotNumber",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TournamentResult": {
+      "title": "TournamentResult",
+      "description": "Published standings and prize distribution for a completed Free Fire tournament.",
+      "type": "object",
+      "properties": {
+        "tournamentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "tournamentTitle": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["Solo", "Squad"]
+        },
+        "mapName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 40
+        },
+        "matchDate": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 60
+        },
+        "mvpPlayer": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "prizeDistributed": {
+          "type": "number"
+        },
+        "standings": {
+          "type": "array"
+        },
+        "publishedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "tournamentId",
+        "tournamentTitle",
+        "mode",
+        "mapName",
+        "matchDate",
+        "mvpPlayer",
+        "prizeDistributed",
+        "standings",
+        "publishedBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Role registry for tournament administrators.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "addedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["email", "addedBy", "createdAt"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "Player wallet balance and lifetime deposit, winning, and withdrawal totals.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "balance": {
+          "type": "number"
+        },
+        "totalDeposited": {
+          "type": "number"
+        },
+        "totalWon": {
+          "type": "number"
+        },
+        "totalWithdrawn": {
+          "type": "number"
+        },
+        "lastTxId": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "userEmail",
+        "balance",
+        "totalDeposited",
+        "totalWon",
+        "totalWithdrawn",
+        "lastTxId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WalletTransaction": {
+      "title": "WalletTransaction",
+      "description": "Ledger entry for wallet deposits, withdrawals, tournament entry fee payments, and prize credits.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "type": {
+          "type": "string",
+          "enum": ["deposit", "withdrawal", "entry_fee", "prize_credit"]
+        },
+        "amount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "utrOrUpi": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "tournamentId": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "note": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "userEmail",
+        "type",
+        "amount",
+        "status",
+        "utrOrUpi",
+        "tournamentId",
+        "note",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "Public TXP Esports configuration (UPI ID, WhatsApp contact, announcement)."
+    },
+    "/tournaments/{tournamentId}": {
+      "schema": { "$ref": "#/entities/Tournament" },
+      "description": "Public Solo and Squad Free Fire tournaments."
+    },
+    "/tournaments/{tournamentId}/roomAccess/{docId}": {
+      "schema": { "$ref": "#/entities/RoomAccess" },
+      "description": "Restricted Room ID and Password for verified tournament players."
+    },
+    "/tournaments/{tournamentId}/publicSlots/{registrationId}": {
+      "schema": { "$ref": "#/entities/PublicSlot" },
+      "description": "Public non-PII roster entries showing filled tournament slots."
+    },
+    "/registrations/{registrationId}": {
+      "schema": { "$ref": "#/entities/Registration" },
+      "description": "Private player and squad registrations with contact phone and payment reference."
+    },
+    "/results/{resultId}": {
+      "schema": { "$ref": "#/entities/TournamentResult" },
+      "description": "Published Free Fire tournament leaderboards and prize payouts."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized admin UIDs."
+    },
+    "/wallets/{userId}": {
+      "schema": { "$ref": "#/entities/Wallet" },
+      "description": "Player wallet balance and lifetime transaction totals."
+    },
+    "/walletTransactions/{txId}": {
+      "schema": { "$ref": "#/entities/WalletTransaction" },
+      "description": "Wallet deposit, withdrawal, entry fee, and prize credit ledger."
+    }
+  }
+}

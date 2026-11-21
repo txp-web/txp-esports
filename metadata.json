@@ -1,0 +1,6 @@
+{
+  "name": "TXP Esports",
+  "description": "Competitive Free Fire Solo & Squad tournament platform featuring player registration, UPI payments, room ID & password access, live results, WhatsApp support, and an admin console.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
